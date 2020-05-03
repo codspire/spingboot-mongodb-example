@@ -1,56 +1,35 @@
 package com.codspire.mongodbexample.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.bson.types.ObjectId;
+import org.immutables.criteria.Criteria;
+import org.immutables.value.Value;
 
-@Document(collection = "speakers")
-public class Speaker {
+import javax.annotation.Nullable;
 
-    @Id
-    private String speakerId;
+@JsonSerialize(as = ImmutableSpeaker.class)
+@JsonDeserialize(as = ImmutableSpeaker.class)
+@Value.Immutable
+@Criteria // generate criteria
+@Criteria.Repository // means generate repository (different from @Criteria)
+public abstract class Speaker {
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String twitter;
-
-    public String getSpeakerId() {
-        return speakerId;
+    @Criteria.Id
+    @Value.Default
+    @JsonProperty("_id")
+    ObjectId speakerId() {
+        return ObjectId.get();
     }
 
-    public void setSpeakerId(String speakerId) {
-        this.speakerId = speakerId;
-    }
+    abstract String firstName();
 
-    public String getFirstName() {
-        return firstName;
-    }
+    abstract String lastName();
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    abstract String email();
 
-    public String getLastName() {
-        return lastName;
-    }
+    @Nullable
+    abstract String twitter();
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTwitter() {
-        return twitter;
-    }
-
-    public void setTwitter(String twitter) {
-        this.twitter = twitter;
-    }
 }
