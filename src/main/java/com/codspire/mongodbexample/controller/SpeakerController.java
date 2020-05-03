@@ -33,7 +33,7 @@ public class SpeakerController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public Speaker addNewUsers(@RequestBody Speaker speaker) {
+    public Speaker addSpeaker(@RequestBody Speaker speaker) {
         LOG.info("Saving Speaker.");
         return speakerService.save(speaker);
     }
